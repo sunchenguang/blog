@@ -14,13 +14,16 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf import settings
-from django.conf.urls import patterns, include, url
-from django.conf.urls.static import static
+from django.conf.urls import *
 from django.contrib import admin
 
+from blogpost import views as blogpost_views
 
-urlpatterns = patterns('',
-    (r'^$', 'blogpost.views.index'),
-    url(r'^blog/(?P<slug>[^\.]+).html', 'blogpost.views.view_post', name='view_blog_post'),
-    url(r'^admin/', include(admin.site.urls))
-)
+from django.contrib.flatpages import views
+
+urlpatterns = [
+    url(r'^$', blogpost_views.index),
+    url(r'^blog/(?P<slug>[^\.]+).html', blogpost_views.view_post, name='view_blog_post'),
+    url(r'^admin/', admin.site.urls),
+    url(r'^pages/', views.flatpage),
+]
